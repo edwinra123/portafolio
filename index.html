@@ -1,179 +1,112 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portafolio</title>
-    <link rel="stylesheet" href="css\style.css">
+    <title>Aiko Beta Local</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <header id="header">
-        <div id="logo">
-            
-        </div>
-        <div id="center_control">
+    <main class="app-shell">
+        <section class="hero-panel" aria-labelledby="app-title">
+            <div class="eyebrow">Beta local sin APIs externas</div>
+            <h1 id="app-title">Aiko, tu asistente virtual privada</h1>
+            <p class="hero-copy">
+                Esta primera beta corre en tu navegador: conversa, habla con la voz del sistema,
+                guarda recuerdos en este dispositivo y prueba comandos seguros antes de pasar a una app de escritorio.
+            </p>
+
+            <div class="status-grid" aria-label="Estado de Aiko">
+                <article>
+                    <span class="status-dot is-online"></span>
+                    <strong>Local</strong>
+                    <p>Sin servidor ni cuenta.</p>
+                </article>
+                <article>
+                    <span class="status-dot"></span>
+                    <strong>Memoria</strong>
+                    <p id="memory-count">0 recuerdos.</p>
+                </article>
+                <article>
+                    <span class="status-dot"></span>
+                    <strong>Voz</strong>
+                    <p id="voice-status">Lista para hablar.</p>
+                </article>
+            </div>
+
+            <div class="quick-actions">
+                <button class="primary-action" id="start-voice">Hablar con Aiko</button>
+                <button id="toggle-speech">Voz activada</button>
+                <button id="private-mode">Modo privado</button>
+            </div>
+        </section>
+
+        <section class="assistant-card" aria-label="Avatar de Aiko">
+            <div class="aiko-avatar" id="aiko-avatar" aria-hidden="true">
+                <div class="halo"></div>
+                <div class="hair back"></div>
+                <div class="head">
+                    <div class="bangs"></div>
+                    <div class="ear left"></div>
+                    <div class="ear right"></div>
+                    <div class="eye left"></div>
+                    <div class="eye right"></div>
+                    <div class="blush left"></div>
+                    <div class="blush right"></div>
+                    <div class="mouth"></div>
+                </div>
+                <div class="neck"></div>
+                <div class="body">
+                    <div class="collar"></div>
+                    <div class="core"></div>
+                </div>
+            </div>
+            <div class="assistant-meta">
+                <p class="assistant-name">Aiko</p>
+                <p id="aiko-mood">Estado: esperando tu comando.</p>
+            </div>
+        </section>
+
+        <section class="chat-panel" aria-labelledby="chat-title">
+            <div class="chat-header">
+                <div>
+                    <p class="eyebrow">Consola beta</p>
+                    <h2 id="chat-title">Chat y comandos</h2>
+                </div>
+                <button id="clear-chat" title="Limpiar conversacion">Limpiar</button>
+            </div>
+
+            <div class="messages" id="messages" aria-live="polite"></div>
+
+            <form class="chat-form" id="chat-form">
+                <label class="sr-only" for="user-input">Mensaje para Aiko</label>
+                <input
+                    id="user-input"
+                    type="text"
+                    autocomplete="off"
+                    placeholder="Ej: recuerda que estudio a las 8 / que recuerdas / modo privado"
+                >
+                <button type="submit">Enviar</button>
+            </form>
+        </section>
+
+        <aside class="command-panel" aria-labelledby="commands-title">
+            <h2 id="commands-title">Comandos de esta beta</h2>
             <ul>
-                <li> <a href="">Inicio</a></li>
-                <li><a href="">Portafolio</a></li>
-                <li><a href="">Blog</a></li>
+                <li><strong>recuerda que...</strong> guarda un dato local si no esta en modo privado.</li>
+                <li><strong>que recuerdas</strong> muestra la memoria guardada en este navegador.</li>
+                <li><strong>olvida todo</strong> borra la memoria local.</li>
+                <li><strong>modo privado</strong> pausa la memoria.</li>
+                <li><strong>modo normal</strong> reactiva la memoria.</li>
+                <li><strong>abre discord/spotify</strong> simula comandos del PC para la proxima fase.</li>
             </ul>
-        </div>
-    </header>
-    <div id="img_principal">
-        <div id="text_img">
-            <p id="p_text">Hola 👋, me llamo Edwin</p>
-            <h1 id="title_profession">Programador Fullstack</h1>
-            <p id="descripcion">Soy desarrollador web junior con 2 años de experiencia aprendiendo y creando proyectos personales. Me apasiona el desarrollo front-end y back-end, y estoy en constante aprendizaje para mejorar mis habilidades y contribuir a proyectos reales.</p>
-            <div id="division"></div>
-            <div id="info">
-                <div id="years">
-                    <div id="cant">2</div>
-                    <span id="cat">+</span>
-                    <div id="year_t">Años aprendiendo</div>
-                </div>
-                <div id="proyects">
-                    <div id="cant">10</div>
-                    <span id="cat">+</span>
-                    <div id="year_t">Proyectos completados</div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div id="historia">
-        <div class="historia">
-            <div id="img_h" >
-                <img  src="img/imagen.jpeg" width="650px" height="450px">
-            </div>
-            <div id="p_h">
-                <div class="ph">
-                    <span class="span_t">/</span><p id="p1">MI HISTORIA</p>
-    
-                </div>
-                <h1 class="t1">Como comence como desarrolador web</h1>
-                <p class="p2">Desde los 16 años me interesé por el desarrollo web y la creación de servidores. Lo que comenzó como curiosidad se convirtió en mi camino profesional como desarrollador.</p>
-            </div>
+            <p class="privacy-note">
+                Nota: el reconocimiento de voz depende del navegador. Para una version mas privada de escritorio,
+                el siguiente paso seria usar Whisper y Piper locales.
+            </p>
+        </aside>
+    </main>
 
-        </div>
-        <div class="historia">
-            <div id="p_h">
-                <div class="ph">
-                    <span class="span_t">/</span><p id="p1">MI HISTORIA</p>
-    
-                </div>
-                <h1 class="t1">Mi primera pagina</h1>
-                <p class="p2">Mi primera pagina fue cuando estudiaba ingenieria de software en mi pais natal,como proyecto de una materia me base en lenguajes de programacion simples pero fue lo mejor y me entusiasme
-                </p>
-            </div>
-            <img class="img2" srcset="https://cdn.prod.website-files.com/622fbc5a718ac3417fcd3d75/62335be970b9542f0f60b9c6_my-story-image-2-developer-webflow-ecommerce-template-p-500.jpeg 500w, https://cdn.prod.website-files.com/622fbc5a718ac3417fcd3d75/62335be970b9542f0f60b9c6_my-story-image-2-developer-webflow-ecommerce-template-p-800.jpeg 800w, https://cdn.prod.website-files.com/622fbc5a718ac3417fcd3d75/62335be970b9542f0f60b9c6_my-story-image-2-developer-webflow-ecommerce-template-p-1080.jpeg 1080w, https://cdn.prod.website-files.com/622fbc5a718ac3417fcd3d75/62335be970b9542f0f60b9c6_my-story-image-2-developer-webflow-ecommerce-template.jpg 1120w" src="" alt="">
-        </div>
-        
-    </div>
-    <div class="container_h">
-        <div class="container_default">
-            <div class="container_default_1">
-                <div class="subtitulos">
-                    <span class="span_t2">/</span><p id="p1">MIS HABILIDADES</p>
-                </div>
-                <div class="titulo_habilidades">
-                    <h2 class="subtitulos2">Mi extensa lista de habilidades</h2>
-                    <div class="btn_div">
-                        <button class="btn_top" id="btn-left">&lt;</button>
-                        <button class="btn_top2" id="btn-right">&gt;</button>
-                    </div>
-                </div>
-            </div>
-            <div class="carrosul_div">
-                <div class="slider_div" id="slider">
-                    <div class="slider-item">
-                        <div id="programar-card">
-                            <img  class="logo_c" src="img/html.png" alt="">
-                            <h3 class="sub">HTML & CSS</h3>
-                            <p class="minisub">Es el primer lenguaje de programación que aprendí. Llevo más de 4 años usándolo para crear páginas web modernas y funcionales.</p>
-                            <div class="line-p"></div>
-                        </div>
-                        
-                    </div>
-                    <div class="slider-item">
-                        <div id="programar-card">
-                            <img  class="logo_c" src="img/Javascript.svg" alt="">
-                            <h3 class="sub">Javascript</h3>
-                            <p class="minisub"> Segundo lenguaje de programacion que aprendi,llevo 3 años avanzando y practicando como usarlo para crear paginas dinamicas.</p>
-                            <div class="line-p"></div>
-                        </div>
-                        
-                    </div>
-                    <div class="slider-item">
-                        <div id="programar-card">
-                            <img  class="logo_c" src="img/React.svg" alt="">
-                            <h3 class="sub">React JS</h3>
-                            <p class="minisub">Es el primer lenguaje de programación que aprendí. Llevo más de 4 años usándolo para crear páginas web modernas y funcionales</p>
-                            <div class="line-p"></div>
-                        </div>
-                        
-                    </div>
-                    <div class="slider-item">
-                        <div id="programar-card">
-                            <img  class="logo_c" src="img/html.png" alt="">
-                            <h3 class="sub">HTML & CSS</h3>
-                            <p class="minisub">Es el primer lenguaje de programación que aprendí. Llevo más de 4 años usándolo para crear páginas web modernas y funcionales</p>
-                            <div class="line-p"></div>
-                        </div>
-                        
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-  <script>
-const slider = document.getElementById('slider');
-const btnLeft = document.getElementById('btn-left');
-const btnRight = document.getElementById('btn-right');
-const items = slider.querySelectorAll('.slider-item');
-
-let currentIndex = 0;
-let isAnimating = false;
-const itemWidth = items[0].offsetWidth + 32; 
-
-function moveToIndex(index, smooth = true) {
-  slider.scrollTo({
-    left: index * itemWidth,
-    behavior: smooth ? 'smooth' : 'auto'
-  });
-}
-
-
-btnRight.addEventListener('click', () => {
-  if (isAnimating) return;
-  isAnimating = true;
-
-  currentIndex++;
-
-  if (currentIndex >= items.length) {
-    currentIndex = 0;
-    moveToIndex(currentIndex, false);
-  } else {
-    moveToIndex(currentIndex);
-  }
-
-  setTimeout(() => (isAnimating = false), 400);
-});
-
-btnLeft.addEventListener('click', () => {
-  if (isAnimating) return;
-  isAnimating = true;
-
-  currentIndex--;
-
-  if (currentIndex < 0) {
-    currentIndex = items.length - 1;
-    moveToIndex(currentIndex, false);
-  } else {
-    moveToIndex(currentIndex);
-  }
-
-  setTimeout(() => (isAnimating = false), 400);
-});
-</script>
-
+    <script src="js/aiko.js"></script>
 </body>
 </html>
