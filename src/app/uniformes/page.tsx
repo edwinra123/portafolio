@@ -1,19 +1,14 @@
+"use client";
+
+import { Suspense, useMemo } from "react";
+import { useSearchParams } from "next/navigation";
 import { ProductCard } from "@/components/ProductCard";
 import { products, searchProducts } from "@/lib/data";
-import type { Metadata } from "next";
 
-export const metadata: Metadata = {
-  title: "Uniformes",
-  description: "Catálogo completo de uniformes profesionales medixuniformes.",
-};
-
-export default async function UniformesPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ q?: string }>;
-}) {
-  const { q } = await searchParams;
-  const list = q ? searchProducts(q) : products;
+function UniformesContent() {
+  const searchParams = useSearchParams();
+  const q = searchParams.get("q") || "";
+  const list = useMemo(() => (q ? searchProducts(q) : products), [q]);
 
   return (
     <section className="section">
@@ -42,5 +37,21 @@ export default async function UniformesPage({
         )}
       </div>
     </section>
+  );
+}
+
+export default function UniformesPage() {
+  return (
+    <Suspense
+      fallback={
+        <section className="section">
+          <div className="container">
+            <div className="panel">Cargando uniformes...</div>
+          </div>
+        </section>
+      }
+    >
+      <UniformesContent />
+    </Suspense>
   );
 }

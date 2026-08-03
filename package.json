@@ -2,11 +2,14 @@
   "name": "medixuniformes",
   "version": "0.1.0",
   "private": true,
+  "description": "Tienda online Medix Uniformes - uniformes profesionales con pagos y panel admin",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:pages": "GITHUB_PAGES=true next build",
     "start": "next start",
-    "lint": "tsc --noEmit"
+    "lint": "tsc --noEmit",
+    "export:pages": "GITHUB_PAGES=true next build && node scripts/publish-pages.mjs"
   },
   "dependencies": {
     "next": "^16.2.12",
@@ -21,6 +24,5 @@
     "eslint": "^9",
     "eslint-config-next": "^16.2.12",
     "typescript": "^5"
-  },
-  "description": "Tienda online Medix Uniformes - uniformes profesionales con pagos y panel admin"
+  }
 }

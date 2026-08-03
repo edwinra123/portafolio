@@ -3,6 +3,13 @@
 import { FormEvent, useCallback, useEffect, useMemo, useState } from "react";
 import type { Order, OrderStatus } from "@/lib/types";
 import { formatCOP, formatDate, orderStatusLabel } from "@/lib/format";
+import {
+  isAdminAuthenticated,
+  readOrders,
+  setAdminAuthenticated,
+  updateOrderStatus,
+  verifyAdminPassword,
+} from "@/lib/orders-client";
 
 type Filter =
   | "all"
@@ -22,21 +29,15 @@ export default function AdminPage() {
   const [filter, setFilter] = useState<Filter>("all");
   const [checking, setChecking] = useState(true);
 
-  const loadOrders = useCallback(async () => {
-    const res = await fetch("/api/admin/orders");
-    if (res.status === 401) {
-      setAuthed(false);
-      return;
-    }
-    const data = await res.json();
-    setOrders(data.orders || []);
-    setAuthed(true);
+  const loadOrders = useCallback(() => {
+    setOrders(readOrders());
   }, []);
 
   useEffect(() => {
-    loadOrders()
-      .catch(() => setAuthed(false))
-      .finally(() => setChecking(false));
+    const ok = isAdminAuthenticated();
+    setAuthed(ok);
+    if (ok) loadOrders();
+    setChecking(false);
   }, [loadOrders]);
 
   const stats = useMemo(() => {
@@ -45,12 +46,7 @@ export default function AdminPage() {
     const revenue = orders
       .filter((o) => ["paid", "cod_confirmed", "delivered"].includes(o.status))
       .reduce((s, o) => s + o.total, 0);
-    return {
-      total: orders.length,
-      paid,
-      cod,
-      revenue,
-    };
+    return { total: orders.length, paid, cod, revenue };
   }, [orders]);
 
   const visible = useMemo(() => {
@@ -58,49 +54,31 @@ export default function AdminPage() {
     return orders.filter((o) => o.status === filter);
   }, [orders, filter]);
 
-  const onLogin = async (e: FormEvent) => {
+  const onLogin = (e: FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError("");
-    try {
-      const res = await fetch("/api/admin/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ password }),
-      });
-      const data = await res.json();
-      if (!res.ok) {
-        setError(data.error || "No se pudo iniciar sesión.");
-        setLoading(false);
-        return;
-      }
-      setPassword("");
-      await loadOrders();
-    } catch {
-      setError("Error de conexión.");
-    } finally {
+    if (!verifyAdminPassword(password)) {
+      setError("Contraseña incorrecta.");
       setLoading(false);
+      return;
     }
+    setAdminAuthenticated(true);
+    setAuthed(true);
+    setPassword("");
+    loadOrders();
+    setLoading(false);
   };
 
-  const onLogout = async () => {
-    await fetch("/api/admin/logout", { method: "POST" });
+  const onLogout = () => {
+    setAdminAuthenticated(false);
     setAuthed(false);
     setOrders([]);
   };
 
-  const updateStatus = async (id: string, status: OrderStatus) => {
-    const res = await fetch(`/api/admin/orders/${id}`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ status }),
-    });
-    if (!res.ok) {
-      const data = await res.json();
-      alert(data.error || "No se pudo actualizar");
-      return;
-    }
-    await loadOrders();
+  const changeStatus = (id: string, status: OrderStatus) => {
+    updateOrderStatus(id, status);
+    loadOrders();
   };
 
   if (checking) {
@@ -118,10 +96,17 @@ export default function AdminPage() {
       <div className="admin-shell">
         <form className="admin-card admin-login form-grid" onSubmit={onLogin}>
           <div>
-            <h1 style={{ color: "var(--navy)", fontFamily: "var(--font-display)" }}>
+            <h1
+              style={{
+                color: "var(--navy)",
+                fontFamily: "var(--font-display)",
+              }}
+            >
               Panel admin
             </h1>
-            <p className="product-meta">medixuniformes · verificación de pedidos</p>
+            <p className="product-meta">
+              medixuniformes · verificación de pedidos
+            </p>
           </div>
           <label>
             Contraseña
@@ -138,7 +123,7 @@ export default function AdminPage() {
             {loading ? "Ingresando..." : "Ingresar"}
           </button>
           <p className="product-meta">
-            Por defecto: <code>medixadmin2026</code> (configurable con ADMIN_PASSWORD)
+            Por defecto: <code>medixadmin2026</code>
           </p>
         </form>
       </div>
@@ -202,7 +187,7 @@ export default function AdminPage() {
                 {label}
               </button>
             ))}
-            <button type="button" className="chip" onClick={() => loadOrders()}>
+            <button type="button" className="chip" onClick={loadOrders}>
               Actualizar
             </button>
           </div>
@@ -229,7 +214,9 @@ export default function AdminPage() {
                   <tr key={order.id}>
                     <td>
                       <strong>{order.id}</strong>
-                      <div className="product-meta">{formatDate(order.createdAt)}</div>
+                      <div className="product-meta">
+                        {formatDate(order.createdAt)}
+                      </div>
                       <div className="product-meta">
                         {order.items
                           .map((i) => `${i.name} (${i.size}) x${i.quantity}`)
@@ -244,7 +231,9 @@ export default function AdminPage() {
                       </div>
                     </td>
                     <td>
-                      {order.paymentMethod === "card" ? "Tarjeta" : "Contraentrega"}
+                      {order.paymentMethod === "card"
+                        ? "Tarjeta"
+                        : "Contraentrega"}
                       {order.card && (
                         <div className="product-meta">
                           {order.card.brand} **** {order.card.last4}
@@ -267,44 +256,46 @@ export default function AdminPage() {
                           <button
                             type="button"
                             className="btn btn-accent"
-                            onClick={() => updateStatus(order.id, "shipped")}
+                            onClick={() => changeStatus(order.id, "shipped")}
                           >
                             Marcar enviado
                           </button>
                         )}
                         {order.status === "cod_pending" && (
-                          <button
-                            type="button"
-                            className="btn btn-accent"
-                            onClick={() => updateStatus(order.id, "cod_confirmed")}
-                          >
-                            Confirmar pago COD
-                          </button>
+                          <>
+                            <button
+                              type="button"
+                              className="btn btn-accent"
+                              onClick={() =>
+                                changeStatus(order.id, "cod_confirmed")
+                              }
+                            >
+                              Confirmar pago COD
+                            </button>
+                            <button
+                              type="button"
+                              className="btn btn-secondary"
+                              onClick={() => changeStatus(order.id, "shipped")}
+                            >
+                              Enviar
+                            </button>
+                          </>
                         )}
                         {(order.status === "cod_confirmed" ||
                           order.status === "shipped") && (
                           <button
                             type="button"
                             className="btn btn-primary"
-                            onClick={() => updateStatus(order.id, "delivered")}
+                            onClick={() => changeStatus(order.id, "delivered")}
                           >
                             Entregado
-                          </button>
-                        )}
-                        {order.status === "cod_pending" && (
-                          <button
-                            type="button"
-                            className="btn btn-secondary"
-                            onClick={() => updateStatus(order.id, "shipped")}
-                          >
-                            Enviar
                           </button>
                         )}
                         {!["delivered", "cancelled"].includes(order.status) && (
                           <button
                             type="button"
                             className="btn btn-danger"
-                            onClick={() => updateStatus(order.id, "cancelled")}
+                            onClick={() => changeStatus(order.id, "cancelled")}
                           >
                             Cancelar
                           </button>

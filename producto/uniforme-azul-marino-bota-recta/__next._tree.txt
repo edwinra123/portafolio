@@ -1,0 +1,4 @@
+:HL["/portafolio/_next/static/chunks/1yv8pi1lt0we2.css","style"]
+:HL["/portafolio/_next/static/media/6bd983bd58a87a3d-s.p.1hey5yyym6mz_.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+:HL["/portafolio/_next/static/media/a343f882a40d2cc9-s.p.1sj6eobyi31rd.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"producto","param":null,"prefetchHints":0,"slots":{"children":{"name":"slug","param":{"type":"d","key":"uniforme-azul-marino-bota-recta","siblings":null},"prefetchHints":0,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}}}}}},"staleTime":300,"buildId":"ALmUYMeTDXbIoYJ2bd7sI"}

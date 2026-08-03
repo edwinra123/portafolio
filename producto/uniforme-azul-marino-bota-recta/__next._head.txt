@@ -1,0 +1,6 @@
+1:"$Sreact.fragment"
+2:I[97367,["/portafolio/_next/static/chunks/1t_q_9e720qe6.js","/portafolio/_next/static/chunks/14mrh2-p_w84d.js"],"ViewportBoundary"]
+3:I[97367,["/portafolio/_next/static/chunks/1t_q_9e720qe6.js","/portafolio/_next/static/chunks/14mrh2-p_w84d.js"],"MetadataBoundary"]
+4:"$Sreact.suspense"
+5:I[27201,["/portafolio/_next/static/chunks/1t_q_9e720qe6.js","/portafolio/_next/static/chunks/14mrh2-p_w84d.js"],"IconMark"]
+0:{"rsc":["$","$1","h",{"children":[null,["$","$L2",null,{"children":[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}]]}],["$","div",null,{"hidden":true,"children":["$","$L3",null,{"children":["$","$4",null,{"name":"Next.Metadata","children":[["$","title","0",{"children":"Uniforme azul marino bota recta | medixuniformes"}],["$","meta","1",{"name":"description","content":"Uniforme profesional Medix: cómodo, resistente y listo para jornadas largas. Tela transpirable y fácil de lavar."}],["$","link","2",{"rel":"icon","href":"https://cdn.treinta.co/new-products/stores/d5ce6fc3-c828-5579-b98d-008fcf352fc6/1ece5bdc-8435-5512-ab9b-a5c13b336a04.jpg"}],["$","$L5","3",{}]]}]}]}],["$","meta",null,{"name":"next-size-adjust","content":""}]]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"ALmUYMeTDXbIoYJ2bd7sI"}

@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useCart } from "@/context/CartContext";
 import { formatCOP } from "@/lib/format";
+import { checkoutOrder } from "@/lib/orders-client";
 import type { PaymentMethod } from "@/lib/types";
 
 export default function CheckoutPage() {
@@ -54,33 +55,23 @@ export default function CheckoutPage() {
     );
   }
 
-  const onSubmit = async (e: FormEvent) => {
+  const onSubmit = (e: FormEvent) => {
     e.preventDefault();
     setError("");
     setLoading(true);
-    try {
-      const res = await fetch("/api/checkout", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          items,
-          customer,
-          paymentMethod: method,
-          card: method === "card" ? card : undefined,
-        }),
-      });
-      const data = await res.json();
-      if (!res.ok) {
-        setError(data.error || "No se pudo procesar el pedido.");
-        setLoading(false);
-        return;
-      }
-      clear();
-      router.push(`/pedido/${data.order.id}`);
-    } catch {
-      setError("Error de conexión. Intenta de nuevo.");
+    const result = checkoutOrder({
+      items,
+      customer,
+      paymentMethod: method,
+      card: method === "card" ? card : undefined,
+    });
+    if (!result.ok || !result.order) {
+      setError(result.error || "No se pudo procesar el pedido.");
       setLoading(false);
+      return;
     }
+    clear();
+    router.push(`/pedido/?id=${encodeURIComponent(result.order.id)}`);
   };
 
   return (
