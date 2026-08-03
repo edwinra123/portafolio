@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useCallback, useEffect, useMemo, useState } from "react";
+import { AdminWhatsAppSetup } from "@/components/AdminWhatsAppSetup";
 import type { Order, OrderStatus } from "@/lib/types";
 import { formatCOP, formatDate, orderStatusLabel } from "@/lib/format";
 
@@ -177,6 +178,10 @@ export default function AdminPage() {
             <span>Ingresos confirmados</span>
             <strong>{formatCOP(stats.revenue)}</strong>
           </div>
+        </div>
+
+        <div className="admin-card" style={{ marginBottom: "1.25rem" }}>
+          <AdminWhatsAppSetup />
         </div>
 
         <div className="admin-card">

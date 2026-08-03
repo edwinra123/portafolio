@@ -61,6 +61,12 @@ WHATSAPP_VERIFY_TOKEN=medix-verify-token
 WHATSAPP_APP_SECRET=opcional_pero_recomendado
 ```
 
+También puedes seguir la guía interactiva en el panel admin:
+
+`http://localhost:3000/admin` → sección **Conectar chatbot de WhatsApp**
+
+Ahí puedes copiar Callback URL / Verify token, validar credenciales contra Meta y simular respuestas.
+
 ### 2. Webhook en Meta
 
 1. En [developers.facebook.com](https://developers.facebook.com/) crea una app y agrega **WhatsApp**.

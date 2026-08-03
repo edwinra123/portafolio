@@ -1019,6 +1019,146 @@ textarea:focus {
   border-color: var(--navy);
 }
 
+.whatsapp-setup-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
+.whatsapp-setup-head h2 {
+  font-family: var(--font-display);
+  color: var(--navy);
+  letter-spacing: -0.02em;
+}
+
+.whatsapp-setup-head p,
+.whatsapp-steps p {
+  color: var(--muted);
+  margin-top: 0.35rem;
+  line-height: 1.45;
+}
+
+.whatsapp-steps {
+  display: grid;
+  gap: 0.9rem;
+  margin: 0 0 1.25rem;
+  padding-left: 1.2rem;
+  color: var(--ink);
+}
+
+.whatsapp-steps li::marker {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.whatsapp-code {
+  margin: 0.7rem 0;
+  padding: 0.85rem 1rem;
+  border-radius: 12px;
+  background: var(--sky-soft);
+  border: 1px solid var(--line);
+  color: var(--navy);
+  white-space: pre-wrap;
+  font-size: 0.82rem;
+  overflow-x: auto;
+}
+
+.whatsapp-copy-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  align-items: center;
+  margin: 0.55rem 0;
+  padding: 0.7rem 0.85rem;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #fff;
+}
+
+.whatsapp-copy-row span {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--muted);
+  margin-bottom: 0.2rem;
+}
+
+.whatsapp-copy-row code {
+  display: block;
+  word-break: break-all;
+  color: var(--navy);
+  font-size: 0.84rem;
+}
+
+.whatsapp-warn {
+  color: var(--warning);
+  font-weight: 600;
+}
+
+.whatsapp-panels {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.whatsapp-panel {
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 1rem;
+  background: linear-gradient(180deg, #fff, var(--sky-soft));
+}
+
+.whatsapp-panel h3 {
+  font-family: var(--font-display);
+  color: var(--navy);
+  font-size: 1.05rem;
+}
+
+.whatsapp-checklist {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.55rem;
+}
+
+.whatsapp-checklist div {
+  border-radius: 12px;
+  padding: 0.65rem 0.75rem;
+  border: 1px solid var(--line);
+  background: #fff;
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.whatsapp-checklist div[data-done="true"] {
+  color: var(--success);
+  border-color: rgba(15, 107, 76, 0.25);
+  background: rgba(15, 107, 76, 0.06);
+}
+
+.whatsapp-checklist div[data-done="true"]::before {
+  content: "✓ ";
+}
+
+.whatsapp-checklist div[data-done="false"]::before {
+  content: "○ ";
+}
+
+@media (max-width: 960px) {
+  .whatsapp-panels,
+  .whatsapp-checklist {
+    grid-template-columns: 1fr;
+  }
+
+  .whatsapp-setup-head,
+  .whatsapp-copy-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
 .orders-table {
   width: 100%;
   border-collapse: collapse;

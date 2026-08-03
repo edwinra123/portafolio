@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { isAdminAuthenticated } from "@/lib/auth";
 import { getChatReply } from "@/lib/chatbot";
 import {
   buildInteractiveButtons,
@@ -10,13 +11,14 @@ import {
 export const runtime = "nodejs";
 
 /**
- * Local/dev helper: returns the WhatsApp-formatted reply without calling Meta.
- * Disabled in production unless WHATSAPP_ALLOW_SIMULATE=true.
+ * Helper: returns the WhatsApp-formatted reply without calling Meta.
+ * Allowed in development, with WHATSAPP_ALLOW_SIMULATE=true, or for admin sessions.
  */
 export async function POST(request: NextRequest) {
   const allow =
     process.env.NODE_ENV !== "production" ||
-    process.env.WHATSAPP_ALLOW_SIMULATE === "true";
+    process.env.WHATSAPP_ALLOW_SIMULATE === "true" ||
+    (await isAdminAuthenticated());
 
   if (!allow) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
