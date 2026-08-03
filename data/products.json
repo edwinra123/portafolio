@@ -1,0 +1,218 @@
+[
+  {
+    "id": "721f137e-d03a-5561-8544-21188a6196fb",
+    "name": "Uniforme amarillo",
+    "description": "Uniforme profesional Medix: cómodo, resistente y listo para jornadas largas. Tela transpirable y fácil de lavar.",
+    "price": 55000,
+    "category": "uniformes",
+    "imageUrl": "https://cdn.treinta.co/new-products/products/d5ce6fc3-c828-5579-b98d-008fcf352fc6/e9e12bed-db7d-5f6c-b8f6-849a0779f94d.jpg",
+    "stock": 1,
+    "slug": "uniforme-amarillo",
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ]
+  },
+  {
+    "id": "1d57058a-49ff-55c6-8585-325a52be1eb5",
+    "name": "Uniforme azul bota recta",
+    "description": "Uniforme profesional Medix: cómodo, resistente y listo para jornadas largas. Tela transpirable y fácil de lavar.",
+    "price": 55000,
+    "category": "uniformes",
+    "imageUrl": "https://cdn.treinta.co/new-products/products/d5ce6fc3-c828-5579-b98d-008fcf352fc6/df0f44d4-1b4f-5b06-ae3a-b8b0bc20f6af.jpg",
+    "stock": 2,
+    "slug": "uniforme-azul-bota-recta",
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ]
+  },
+  {
+    "id": "bb5328f3-ac1f-5ba3-89a1-cbdc0829012d",
+    "name": "Uniforme azul camisa sin bolsillos",
+    "description": "Uniforme profesional Medix: cómodo, resistente y listo para jornadas largas. Tela transpirable y fácil de lavar.",
+    "price": 55000,
+    "category": "uniformes",
+    "imageUrl": "https://cdn.treinta.co/new-products/products/d5ce6fc3-c828-5579-b98d-008fcf352fc6/48bfb4cf-d7d0-53f8-8958-26101c9da7ed.jpg",
+    "stock": 1,
+    "slug": "uniforme-azul-camisa-sin-bolsillos",
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ]
+  },
+  {
+    "id": "adaa8584-5c1f-5538-9c5a-ebcad59a3f3f",
+    "name": "Uniforme azul claro",
+    "description": "Uniforme profesional Medix: cómodo, resistente y listo para jornadas largas. Tela transpirable y fácil de lavar.",
+    "price": 55000,
+    "category": "uniformes",
+    "imageUrl": "https://us-east-1-prod-treinta-assets-bucket.s3.amazonaws.com/57068d7b-5aec-5c57-ad3f-8634180cf70f.jpeg",
+    "stock": 4,
+    "slug": "uniforme-azul-claro",
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ]
+  },
+  {
+    "id": "aff36b63-006f-59e1-a513-f74004e6d313",
+    "name": "Uniforme azul elec",
+    "description": "Uniforme profesional Medix: cómodo, resistente y listo para jornadas largas. Tela transpirable y fácil de lavar.",
+    "price": 55000,
+    "category": "uniformes",
+    "imageUrl": "https://us-east-1-prod-treinta-assets-bucket.s3.amazonaws.com/64e7fe9b-8716-599a-8f5b-2d2e4a7620e8.jpeg",
+    "stock": 3,
+    "slug": "uniforme-azul-elec",
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ]
+  },
+  {
+    "id": "33e5d7aa-6cfa-5815-a4fa-97d6ca593b4d",
+    "name": "Uniforme azul jogger",
+    "description": "Uniforme profesional Medix: cómodo, resistente y listo para jornadas largas. Tela transpirable y fácil de lavar.",
+    "price": 55000,
+    "category": "uniformes",
+    "imageUrl": "https://cdn.treinta.co/new-products/products/d5ce6fc3-c828-5579-b98d-008fcf352fc6/b35e242c-ab55-59fd-998b-5b1e0348862b.jpg",
+    "stock": 1,
+    "slug": "uniforme-azul-jogger",
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ]
+  },
+  {
+    "id": "e88d98b1-96ea-5cf6-8a4d-f892fce4c8de",
+    "name": "Uniforme azul marino",
+    "description": "Uniforme profesional Medix: cómodo, resistente y listo para jornadas largas. Tela transpirable y fácil de lavar.",
+    "price": 55000,
+    "category": "uniformes",
+    "imageUrl": "https://us-east-1-prod-treinta-assets-bucket.s3.amazonaws.com/bf3584ac-d4b5-51f6-bf6c-0a3eb6a8df4e.jpeg",
+    "stock": 6,
+    "slug": "uniforme-azul-marino",
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ]
+  },
+  {
+    "id": "9001bf3b-dedb-5138-a631-ef6f3f040e1f",
+    "name": "Uniforme azul marino bota recta",
+    "description": "Uniforme profesional Medix: cómodo, resistente y listo para jornadas largas. Tela transpirable y fácil de lavar.",
+    "price": 55000,
+    "category": "uniformes",
+    "imageUrl": "https://cdn.treinta.co/new-products/products/d5ce6fc3-c828-5579-b98d-008fcf352fc6/53c07d76-9bd3-59f8-8aab-8b569f80eb20.jpg",
+    "stock": 1,
+    "slug": "uniforme-azul-marino-bota-recta",
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ]
+  },
+  {
+    "id": "562e5613-c292-574d-92ae-fb26ecd517d7",
+    "name": "Uniforme azul rey bota ancha",
+    "description": "Uniforme profesional Medix: cómodo, resistente y listo para jornadas largas. Tela transpirable y fácil de lavar.",
+    "price": 55000,
+    "category": "uniformes",
+    "imageUrl": "https://cdn.treinta.co/new-products/products/d5ce6fc3-c828-5579-b98d-008fcf352fc6/fc7f556d-954a-5408-8227-7e81896fb0c4.jpg",
+    "stock": 1,
+    "slug": "uniforme-azul-rey-bota-ancha",
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ]
+  },
+  {
+    "id": "7d758e20-1e39-56b3-a9eb-afa225e89784",
+    "name": "Uniforme azul",
+    "description": "Uniforme profesional Medix: cómodo, resistente y listo para jornadas largas. Tela transpirable y fácil de lavar.",
+    "price": 55000,
+    "category": "uniformes",
+    "imageUrl": "https://cdn.treinta.co/new-products/products/d5ce6fc3-c828-5579-b98d-008fcf352fc6/5b893098-0f19-578f-8ddf-5712f9a51b3e.jpg",
+    "stock": 7,
+    "slug": "uniforme-azul",
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ]
+  },
+  {
+    "id": "af738628-3244-534f-902a-db97b79e53e6",
+    "name": "Uniforme beich",
+    "description": "Uniforme profesional Medix: cómodo, resistente y listo para jornadas largas. Tela transpirable y fácil de lavar.",
+    "price": 55000,
+    "category": "uniformes",
+    "imageUrl": "https://cdn.treinta.co/new-products/products/d5ce6fc3-c828-5579-b98d-008fcf352fc6/07764799-414a-5eae-8691-ae127d9e5601.jpg",
+    "stock": 1,
+    "slug": "uniforme-beich",
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ]
+  },
+  {
+    "id": "8b5e0b73-4bf7-565d-bd1c-08e44cbbb17e",
+    "name": "Uniforme blanco",
+    "description": "Uniforme profesional Medix: cómodo, resistente y listo para jornadas largas. Tela transpirable y fácil de lavar.",
+    "price": 55000,
+    "category": "uniformes",
+    "imageUrl": "https://cdn.treinta.co/new-products/products/d5ce6fc3-c828-5579-b98d-008fcf352fc6/28d8622d-00fe-5aa6-8055-24b62e4a49f2.jpg",
+    "stock": 1,
+    "slug": "uniforme-blanco",
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ]
+  }
+]

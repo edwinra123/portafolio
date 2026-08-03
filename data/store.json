@@ -1,0 +1,13 @@
+{
+  "name": "medixuniformes",
+  "displayName": "Medix Uniformes",
+  "tagline": "Comodidad, estilo y funcionalidad para los que cuidan de los demás.",
+  "phone": "3125758904",
+  "city": "Cúcuta",
+  "country": "Colombia",
+  "logo": "https://cdn.treinta.co/new-products/stores/d5ce6fc3-c828-5579-b98d-008fcf352fc6/1ece5bdc-8435-5512-ab9b-a5c13b336a04.jpg",
+  "whatsapp": "573125758904",
+  "currency": "COP",
+  "shippingThreshold": 150000,
+  "shippingCost": 10000
+}
