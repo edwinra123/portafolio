@@ -4,6 +4,7 @@ import { FormEvent, useCallback, useEffect, useState } from "react";
 
 type WhatsAppAdminInfo = {
   configured: boolean;
+  standalone: boolean;
   tokenConfigured: boolean;
   phoneNumberIdConfigured: boolean;
   appSecretConfigured: boolean;
@@ -127,8 +128,9 @@ export function AdminWhatsAppSetup() {
         <div>
           <h2>Conectar chatbot de WhatsApp</h2>
           <p>
-            Sigue estos pasos en Meta Developers. El bot ya está listo en{" "}
-            <code>/api/whatsapp/webhook</code>.
+            Modo <strong>solo WhatsApp</strong>: el cliente habla por WhatsApp,
+            sin usar la página web. Solo necesitas Meta + una URL HTTPS para el
+            webhook (<code>/api/whatsapp/webhook</code>).
           </p>
         </div>
         <span
@@ -157,9 +159,10 @@ export function AdminWhatsAppSetup() {
         <li>
           <strong>Copia Token y Phone number ID</strong>
           <p>
-            En WhatsApp → API Setup verás un <em>Temporary access token</em> y el{" "}
-            <em>Phone number ID</em> del número de prueba. Pégalos en el{" "}
-            <code>.env</code> del hosting (Vercel → Environment Variables).
+            En WhatsApp → API Setup copia el <em>Temporary access token</em> y el{" "}
+            <em>Phone number ID</em>. Pégalos en variables de entorno del
+            hosting (Vercel). Los clientes no usan la web: el bot responde solo
+            en WhatsApp.
           </p>
           <pre className="whatsapp-code">{info.envTemplate}</pre>
           <button
@@ -171,13 +174,14 @@ export function AdminWhatsAppSetup() {
           </button>
         </li>
         <li>
-          <strong>Publica la tienda con HTTPS</strong>
+          <strong>URL HTTPS solo para el webhook</strong>
           <p>
-            Meta no acepta <code>localhost</code>. Usa tu dominio de Vercel (o un
-            túnel como ngrok) y ponlo en <code>NEXT_PUBLIC_SITE_URL</code>.
+            Meta necesita una URL pública HTTPS para avisarte cuando llega un
+            mensaje. No es la “tienda” para clientes: es solo el servidor del
+            bot (Vercel o ngrok).
           </p>
           <p>
-            URL actual detectada: <code>{info.siteUrl}</code>
+            URL actual: <code>{info.siteUrl}</code>
             {!info.siteUrl.startsWith("https://") ? (
               <span className="whatsapp-warn">
                 {" "}
@@ -221,10 +225,11 @@ export function AdminWhatsAppSetup() {
           </p>
         </li>
         <li>
-          <strong>Valida credenciales y prueba</strong>
+          <strong>Prueba en WhatsApp</strong>
           <p>
-            Puedes validar el token aquí (no se guarda) y simular respuestas del
-            bot sin Meta.
+            Escribe <em>hola</em> al número de prueba. El bot responde productos,
+            tallas, envíos y puede pasar a <em>asesor</em> — todo dentro de
+            WhatsApp.
           </p>
         </li>
       </ol>

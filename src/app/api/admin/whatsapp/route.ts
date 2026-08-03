@@ -4,6 +4,7 @@ import {
   getSiteUrl,
   getWhatsAppVerifyToken,
   isWhatsAppConfigured,
+  isWhatsAppStandalone,
 } from "@/lib/whatsapp";
 
 export const runtime = "nodejs";
@@ -16,9 +17,11 @@ export async function GET() {
   const siteUrl = getSiteUrl();
   const verifyToken = getWhatsAppVerifyToken();
   const configured = isWhatsAppConfigured();
+  const standalone = isWhatsAppStandalone();
 
   return NextResponse.json({
     configured,
+    standalone,
     tokenConfigured: Boolean(process.env.WHATSAPP_TOKEN?.trim()),
     phoneNumberIdConfigured: Boolean(
       process.env.WHATSAPP_PHONE_NUMBER_ID?.trim()
@@ -34,13 +37,14 @@ export async function GET() {
       credentials:
         "Copia Temporary access token y Phone number ID en las variables de entorno",
       publicUrl:
-        "Despliega la tienda con HTTPS (Vercel) o usa un túnel para local",
+        "Necesitas solo una URL HTTPS pública para el webhook (Vercel/ngrok). No hace falta la tienda web para los clientes.",
       webhook:
         "En Meta → WhatsApp → Configuration pega el Callback URL y Verify token",
       subscribe: "Suscribe el campo messages",
       test: "Envía hola al número de prueba / Business",
     },
     envTemplate: [
+      "WHATSAPP_STANDALONE=true",
       `NEXT_PUBLIC_SITE_URL=${siteUrl}`,
       "WHATSAPP_TOKEN=pega_aqui_el_token",
       "WHATSAPP_PHONE_NUMBER_ID=pega_aqui_el_phone_number_id",

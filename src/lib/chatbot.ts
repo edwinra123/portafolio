@@ -101,12 +101,30 @@ function findProducts(query: string): Product[] {
   return scored.map((item) => item.product);
 }
 
-function listCatalog(): ChatReply {
+function productLine(product: Product): string {
+  const sizes = product.sizes.join("/");
+  const stock =
+    product.stock > 0 ? `disponible` : "agotado";
+  return `• ${product.name} — ${formatCOP(product.price)} · tallas ${sizes} · ${stock}`;
+}
+
+function listCatalog(channel: ChatChannel = "web"): ChatReply {
   const available = products.filter((p) => p.stock > 0);
   const names = available
     .slice(0, 6)
-    .map((p) => `• ${p.name} (${formatCOP(p.price)})`)
+    .map((p) =>
+      channel === "whatsapp"
+        ? productLine(p)
+        : `• ${p.name} (${formatCOP(p.price)})`
+    )
     .join("\n");
+
+  if (channel === "whatsapp") {
+    return {
+      text: `Tenemos ${available.length} uniformes profesionales desde ${formatCOP(55000)}. Algunos:\n${names}\n\nDime un color o modelo (ej: *uniforme azul*) y la talla. Si quieres comprar, escribe *asesor*.`,
+      suggestions: ["Uniforme azul", "Uniforme blanco", "Tallas", "Asesor"],
+    };
+  }
 
   return {
     text: `Tenemos ${available.length} uniformes profesionales disponibles desde ${formatCOP(55000)}. Algunos destacados:\n${names}\n\nPuedes decir un color (azul, blanco, amarillo…) o abrir el catálogo completo.`,
@@ -119,32 +137,39 @@ function listCatalog(): ChatReply {
 }
 
 function shippingReply(channel: ChatChannel): ChatReply {
+  if (channel === "whatsapp") {
+    return {
+      text: `Enviamos a todo ${store.country} desde ${store.city}.\n\n• Envío: ${formatCOP(store.shippingCost)}\n• Envío gratis desde ${formatCOP(store.shippingThreshold)}\n\nPara pedir, dime modelo + talla + ciudad, o escribe *asesor*.`,
+      suggestions: ["Formas de pago", "Ver productos", "Asesor"],
+    };
+  }
+
   return {
     text: `Enviamos a todo ${store.country} desde ${store.city}.\n\n• Envío: ${formatCOP(store.shippingCost)}\n• Envío gratis desde ${formatCOP(store.shippingThreshold)}\n\nAl finalizar la compra te pedimos ciudad y dirección.`,
     links: [{ label: "Ir al carrito", href: "/carrito" }],
-    suggestions:
-      channel === "whatsapp"
-        ? ["Formas de pago", "Ver productos", "Asesor"]
-        : ["Formas de pago", "Ver productos", "WhatsApp"],
+    suggestions: ["Formas de pago", "Ver productos", "WhatsApp"],
   };
 }
 
 function paymentReply(channel: ChatChannel): ChatReply {
+  if (channel === "whatsapp") {
+    return {
+      text: "Por WhatsApp puedes pagar así:\n\n• Contraentrega (pagas al recibir)\n• Con un asesor: transferencia u otras opciones\n\nEscribe *asesor* cuando quieras hacer el pedido.",
+      suggestions: ["Envíos", "Ver productos", "Asesor"],
+    };
+  }
+
   return {
     text: "Puedes pagar de dos formas:\n\n• Tarjeta (pasarela demo en la tienda)\n• Contraentrega: pagas al recibir\n\nDespués del pedido puedes hacer seguimiento con el número de orden.",
     links: [{ label: "Ir al checkout", href: "/checkout" }],
-    suggestions:
-      channel === "whatsapp"
-        ? ["Envíos", "Ver productos", "Asesor"]
-        : ["Envíos", "WhatsApp", "Ver productos"],
+    suggestions: ["Envíos", "WhatsApp", "Ver productos"],
   };
 }
 
 function sizesReply(channel: ChatChannel): ChatReply {
   if (channel === "whatsapp") {
     return {
-      text: "Nuestros uniformes vienen en tallas XS, S, M, L, XL y XXL.\n\nDime el modelo que te gusta y la talla, o pide un *asesor* si necesitas ayuda con medidas o pedidos mayoristas.",
-      links: [{ label: "Ver uniformes", href: "/uniformes" }],
+      text: "Tallas disponibles: XS, S, M, L, XL y XXL.\n\nDime el modelo y la talla (ej: *uniforme azul M*). Si no estás seguro, escribe *asesor*.",
       suggestions: ["Ver productos", "Envíos", "Asesor"],
     };
   }
@@ -168,7 +193,7 @@ function sizesReply(channel: ChatChannel): ChatReply {
 function contactReply(channel: ChatChannel): ChatReply {
   if (channel === "whatsapp") {
     return {
-      text: `Estamos en ${store.city}, ${store.country}.\nTeléfono: ${store.phone}\nHorario: ${HOURS}\n\nSi quieres hablar con una persona, escribe *asesor* y un humano te atenderá en este chat.`,
+      text: `Estamos en ${store.city}, ${store.country}.\nTeléfono: ${store.phone}\nHorario: ${HOURS}\n\nYa estás en nuestro WhatsApp. Escribe *asesor* si quieres atención humana.`,
       suggestions: ["Asesor", "Horario", "Ver productos"],
     };
   }
@@ -190,36 +215,41 @@ function contactReply(channel: ChatChannel): ChatReply {
 }
 
 function hoursReply(channel: ChatChannel): ChatReply {
+  if (channel === "whatsapp") {
+    return {
+      text: `Atendemos ${HOURS}. Si escribes fuera de horario, deja tu mensaje aquí y te respondemos apenas podamos.`,
+      suggestions: ["Ver productos", "Envíos", "Asesor"],
+    };
+  }
+
   return {
     text: `Atendemos ${HOURS}. Si nos escribes fuera de horario, deja tu mensaje y te respondemos en cuanto estemos disponibles.`,
-    links:
-      channel === "web"
-        ? [
-            {
-              label: "Escribir por WhatsApp",
-              href: whatsappLink("Hola medixuniformes, quiero información."),
-              external: true,
-            },
-          ]
-        : [{ label: "Ver tienda online", href: "/" }],
-    suggestions:
-      channel === "whatsapp"
-        ? ["Ver productos", "Envíos", "Asesor"]
-        : ["WhatsApp", "Ver productos", "Envíos"],
+    links: [
+      {
+        label: "Escribir por WhatsApp",
+        href: whatsappLink("Hola medixuniformes, quiero información."),
+        external: true,
+      },
+    ],
+    suggestions: ["WhatsApp", "Ver productos", "Envíos"],
   };
 }
 
 function aboutReply(channel: ChatChannel): ChatReply {
+  if (channel === "whatsapp") {
+    return {
+      text: `${store.displayName}: ${store.tagline}\n\nSomos una tienda de uniformes profesionales para personal de la salud. Todo el pedido lo puedes hacer por este WhatsApp.`,
+      suggestions: ["Ver productos", "Envíos", "Asesor"],
+    };
+  }
+
   return {
     text: `${store.displayName}: ${store.tagline}\n\nSomos una tienda de uniformes profesionales para el personal de la salud. Diseñamos comodidad para jornadas largas.`,
     links: [
       { label: "Conócenos", href: "/nosotros" },
       { label: "Ver uniformes", href: "/uniformes" },
     ],
-    suggestions:
-      channel === "whatsapp"
-        ? ["Ver productos", "Envíos", "Asesor"]
-        : ["Ver productos", "Envíos", "WhatsApp"],
+    suggestions: ["Ver productos", "Envíos", "WhatsApp"],
   };
 }
 
@@ -227,7 +257,7 @@ function helpReply(channel: ChatChannel): ChatReply {
   return {
     text:
       channel === "whatsapp"
-        ? "Puedo ayudarte con:\n• Catálogo y colores\n• Tallas\n• Envíos y costos\n• Formas de pago\n• Horario\n• Pasarte con un asesor\n\nEscribe tu duda o toca una opción."
+        ? "Puedo ayudarte por WhatsApp con:\n• Productos y colores\n• Tallas\n• Envíos y costos\n• Formas de pago\n• Horario\n• Pasarte con un asesor para comprar\n\nEscribe tu duda o toca una opción."
         : "Puedo ayudarte con:\n• Catálogo y colores\n• Tallas\n• Envíos y costos\n• Formas de pago\n• Horario y WhatsApp\n\nEscribe tu duda o elige una opción rápida.",
     suggestions: defaultSuggestions(channel),
   };
@@ -235,9 +265,39 @@ function helpReply(channel: ChatChannel): ChatReply {
 
 function agentHandoffReply(): ChatReply {
   return {
-    text: `Perfecto. Un asesor de ${store.displayName} te atenderá por este WhatsApp lo antes posible.\n\nMientras tanto puedes seguir mirando el catálogo en la tienda.`,
-    links: [{ label: "Ver catálogo", href: "/uniformes" }],
+    text: `Perfecto. Un asesor de ${store.displayName} te atenderá por este mismo WhatsApp lo antes posible.\n\nMientras tanto puedes escribir el modelo y la talla que te interesa.`,
     suggestions: ["Ver productos", "Envíos", "Horario"],
+  };
+}
+
+function productSearchReply(
+  matched: Product[],
+  channel: ChatChannel,
+  intro: string
+): ChatReply {
+  const list = matched
+    .slice(0, 4)
+    .map((p) =>
+      channel === "whatsapp"
+        ? productLine(p)
+        : `• ${p.name} — ${formatCOP(p.price)}${p.stock > 0 ? "" : " (agotado)"}`
+    )
+    .join("\n");
+
+  if (channel === "whatsapp") {
+    return {
+      text: `${intro}\n${list}\n\nResponde con el *nombre + talla* (ej: Uniforme azul M) o escribe *asesor* para comprar.`,
+      suggestions: ["Tallas", "Envíos", "Asesor"],
+    };
+  }
+
+  return {
+    text: `${intro}\n${list}\n\nToca un enlace para ver detalle y elegir talla.`,
+    links: [
+      ...productLinks(matched),
+      { label: "Ver catálogo completo", href: "/uniformes" },
+    ],
+    suggestions: ["Tallas", "Envíos", "WhatsApp"],
   };
 }
 
@@ -361,6 +421,13 @@ export function getChatReply(
     /\b(precio|precios|cuanto|cuánto|vale|costo|cuesta)\b/.test(simple) &&
     !/\b(envio|envío)\b/.test(simple)
   ) {
+    if (channel === "whatsapp") {
+      return {
+        text: `La mayoría de uniformes cuestan ${formatCOP(55000)}. El envío es ${formatCOP(store.shippingCost)} y gratis desde ${formatCOP(store.shippingThreshold)}.\n\nEscribe un color/modelo o *asesor* para pedir.`,
+        suggestions: ["Ver productos", "Envíos", "Asesor"],
+      };
+    }
+
     return {
       text: `La mayoría de uniformes están en ${formatCOP(55000)}. El envío cuesta ${formatCOP(store.shippingCost)} y es gratis desde ${formatCOP(store.shippingThreshold)}.`,
       links: [{ label: "Ver precios en catálogo", href: "/uniformes" }],
@@ -378,72 +445,42 @@ export function getChatReply(
       matched.length > 0 &&
       !/^(ver )?productos?$|^catalogo$|^catálogo$|^uniformes?$/.test(simple)
     ) {
-      const list = matched
-        .slice(0, 4)
-        .map(
-          (p) =>
-            `• ${p.name} — ${formatCOP(p.price)}${p.stock > 0 ? "" : " (agotado)"}`
-        )
-        .join("\n");
-      return {
-        text: `Encontré estas opciones:\n${list}\n\n${
-          channel === "whatsapp"
-            ? "Abre un enlace para ver detalle y elegir talla."
-            : "Toca un enlace para ver detalle y elegir talla."
-        }`,
-        links: [
-          ...productLinks(matched),
-          { label: "Ver catálogo completo", href: "/uniformes" },
-        ],
-        suggestions:
-          channel === "whatsapp"
-            ? ["Tallas", "Envíos", "Asesor"]
-            : ["Tallas", "Envíos", "WhatsApp"],
-      };
+      return productSearchReply(
+        matched,
+        channel,
+        "Encontré estas opciones:"
+      );
     }
-    return listCatalog();
+    return listCatalog(channel);
   }
 
   const matched = findProducts(simple);
   if (matched.length > 0) {
-    const list = matched
-      .slice(0, 4)
-      .map(
-        (p) =>
-          `• ${p.name} — ${formatCOP(p.price)}${p.stock > 0 ? "" : " (agotado)"}`
-      )
-      .join("\n");
+    return productSearchReply(
+      matched,
+      channel,
+      "Esto encontré relacionado con tu búsqueda:"
+    );
+  }
+
+  if (channel === "whatsapp") {
     return {
-      text: `Esto encontré relacionado con tu búsqueda:\n${list}`,
-      links: [
-        ...productLinks(matched),
-        { label: "Ver catálogo", href: "/uniformes" },
-      ],
-      suggestions:
-        channel === "whatsapp"
-          ? ["Tallas", "Envíos", "Asesor"]
-          : ["Tallas", "Envíos", "WhatsApp"],
+      text: "No estoy seguro de haber entendido. Puedo ayudarte con productos, tallas, envíos, pagos u horario. También puedes pedir un *asesor*.",
+      suggestions: defaultSuggestions(channel),
     };
   }
 
   return {
-    text:
-      channel === "whatsapp"
-        ? "No estoy seguro de haber entendido. Puedo ayudarte con productos, tallas, envíos, pagos u horario. También puedes pedir un *asesor*."
-        : "No estoy seguro de haber entendido. Puedo ayudarte con productos, tallas, envíos, pagos u horario. También te conecto con WhatsApp.",
+    text: "No estoy seguro de haber entendido. Puedo ayudarte con productos, tallas, envíos, pagos u horario. También te conecto con WhatsApp.",
     links: [
       { label: "Ver uniformes", href: "/uniformes" },
-      ...(channel === "web"
-        ? [
-            {
-              label: "Hablar por WhatsApp",
-              href: whatsappLink(
-                `Hola medixuniformes, necesito ayuda con: ${text}`
-              ),
-              external: true,
-            },
-          ]
-        : []),
+      {
+        label: "Hablar por WhatsApp",
+        href: whatsappLink(
+          `Hola medixuniformes, necesito ayuda con: ${text}`
+        ),
+        external: true,
+      },
     ],
     suggestions: defaultSuggestions(channel),
   };

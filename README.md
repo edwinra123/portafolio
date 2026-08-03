@@ -45,36 +45,32 @@ Desde el panel puedes:
 
 Los pedidos se guardan en `data/orders.json` (se crea automáticamente).
 
-## Chatbot de WhatsApp
+## Chatbot de WhatsApp (modo standalone)
 
-La tienda incluye un bot por **WhatsApp Cloud API** (Meta) que reutiliza el mismo asistente del chat web: catálogo, tallas, envíos, pagos, horario y pase a asesor humano.
+El bot está pensado para atender **solo por WhatsApp**. El cliente no necesita entrar a la página web: pregunta productos, tallas, envíos y puede pedir un *asesor*.
+
+Meta sí exige una URL HTTPS pública para el webhook (el “cerebro” del bot). Eso no es la tienda para clientes; es solo el servidor API.
 
 ### 1. Variables de entorno
 
-Copia `.env.example` y completa:
-
 ```bash
-NEXT_PUBLIC_SITE_URL=https://tu-dominio.com
+WHATSAPP_STANDALONE=true
+NEXT_PUBLIC_SITE_URL=https://tu-servidor.vercel.app
 WHATSAPP_TOKEN=EAAB...
 WHATSAPP_PHONE_NUMBER_ID=1234567890
 WHATSAPP_VERIFY_TOKEN=medix-verify-token
 WHATSAPP_APP_SECRET=opcional_pero_recomendado
 ```
 
-También puedes seguir la guía interactiva en el panel admin:
-
-`http://localhost:3000/admin` → sección **Conectar chatbot de WhatsApp**
-
-Ahí puedes copiar Callback URL / Verify token, validar credenciales contra Meta y simular respuestas.
+Guía interactiva: `http://localhost:3000/admin` → **Conectar chatbot de WhatsApp**
 
 ### 2. Webhook en Meta
 
-1. En [developers.facebook.com](https://developers.facebook.com/) crea una app y agrega **WhatsApp**.
-2. En la configuración del webhook usa:
-   - Callback URL: `https://tu-dominio.com/api/whatsapp/webhook`
-   - Verify token: el mismo de `WHATSAPP_VERIFY_TOKEN`
-3. Suscribe el campo `messages`.
-4. Envía un mensaje de prueba al número de WhatsApp Business.
+1. App en [developers.facebook.com](https://developers.facebook.com/) + producto **WhatsApp**
+2. Callback URL: `https://tu-servidor.vercel.app/api/whatsapp/webhook`
+3. Verify token: el mismo de `WHATSAPP_VERIFY_TOKEN`
+4. Suscribe `messages`
+5. Escribe `hola` al número de prueba
 
 ### 3. Probar sin Meta (local)
 
@@ -84,20 +80,12 @@ curl -X POST http://localhost:3000/api/whatsapp/simulate \
   -d '{"message":"uniforme azul"}'
 ```
 
-Estado de configuración:
-
-```bash
-curl http://localhost:3000/api/whatsapp/status
-```
-
-Si el token no está configurado, el webhook igual responde `200` y deja la respuesta en logs (`[whatsapp:dry-run]`).
-
-### Comandos útiles del bot
+### Comandos del bot
 
 - `hola` / `ayuda`
 - `productos` / `uniforme azul`
 - `tallas` · `envíos` · `formas de pago` · `horario`
-- `asesor` (pide atención humana)
+- `asesor` (atención humana en el mismo chat)
 
 ## Deploy
 

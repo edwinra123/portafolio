@@ -88,10 +88,21 @@ function absoluteUrl(href: string, siteUrl: string): string {
   return `${siteUrl}${href.startsWith("/") ? href : `/${href}`}`;
 }
 
+export function isWhatsAppStandalone(): boolean {
+  // Default ON: bot answers only on WhatsApp without website links.
+  const value = process.env.WHATSAPP_STANDALONE?.trim().toLowerCase();
+  if (!value) return true;
+  return value !== "false" && value !== "0" && value !== "off";
+}
+
 export function formatReplyForWhatsApp(
   reply: ChatReply,
   siteUrl: string
 ): string {
+  if (isWhatsAppStandalone()) {
+    return reply.text;
+  }
+
   const links = (reply.links || [])
     .filter((link) => !isWhatsAppMeLink(link))
     .slice(0, 5)
