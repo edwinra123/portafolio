@@ -27,7 +27,7 @@ Configura `ADMIN_PASSWORD` y `ADMIN_SESSION_SECRET` con el archivo `.env.example
 Valida número (Luhn), vencimiento y CVC. Guarda solo marca, últimos 4 dígitos y código de autorización.
 
 - Ejemplo OK: `4242 4242 4242 4242`
-- Ejemplo rechazo: cualquier tarjeta válida que termine en `0000`
+- Ejemplo rechazo: `4000 0000 0002 0000`
 
 En producción puedes conectar Wompi, Mercado Pago o PayU reemplazando `src/lib/payment.ts` y el endpoint `/api/checkout`.
 

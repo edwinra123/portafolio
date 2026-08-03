@@ -194,9 +194,9 @@ export default function CheckoutPage() {
 
           {method === "card" && (
             <div className="card-fields">
-              <p className="product-meta">
-                Pasarela demo: usa una tarjeta válida Luhn (ej. 4242 4242 4242
-                4242). Termina en 0000 para simular rechazo.
+                  <p className="product-meta">
+                Pasarela demo: usa 4242 4242 4242 4242 para pagar. Para simular
+                rechazo: 4000 0000 0002 0000.
               </p>
               <label>
                 Nombre del titular
