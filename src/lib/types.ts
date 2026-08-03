@@ -78,3 +78,27 @@ export type StoreInfo = {
   shippingThreshold: number;
   shippingCost: number;
 };
+
+export type WhatsAppOrderStatus =
+  | "nuevo"
+  | "preparar"
+  | "enviado"
+  | "cancelado";
+
+export type WhatsAppOrder = {
+  id: string;
+  createdAt: string;
+  updatedAt: string;
+  status: WhatsAppOrderStatus;
+  customerPhone: string;
+  customerName: string;
+  productName: string;
+  productSlug?: string;
+  size: string;
+  quantity: number;
+  city: string;
+  unitPrice: number;
+  shipping: number;
+  total: number;
+  notes?: string;
+};

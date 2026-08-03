@@ -30,10 +30,10 @@ const WEB_SUGGESTIONS = [
 ];
 
 const WHATSAPP_SUGGESTIONS = [
+  "Hacer pedido",
   "Ver productos",
   "Tallas",
   "Envíos",
-  "Formas de pago",
   "Horario",
   "Asesor",
 ];
@@ -257,7 +257,7 @@ function helpReply(channel: ChatChannel): ChatReply {
   return {
     text:
       channel === "whatsapp"
-        ? "Puedo ayudarte por WhatsApp con:\n• Productos y colores\n• Tallas\n• Envíos y costos\n• Formas de pago\n• Horario\n• Pasarte con un asesor para comprar\n\nEscribe tu duda o toca una opción."
+        ? "Puedo ayudarte por WhatsApp con:\n• *Hacer pedido* (modelo, talla, cantidad, ciudad)\n• Productos y colores\n• Tallas\n• Envíos y costos\n• Formas de pago\n• Horario\n• Pasarte con un asesor\n\nEscribe *pedido* para ordenar."
         : "Puedo ayudarte con:\n• Catálogo y colores\n• Tallas\n• Envíos y costos\n• Formas de pago\n• Horario y WhatsApp\n\nEscribe tu duda o elige una opción rápida.",
     suggestions: defaultSuggestions(channel),
   };
@@ -286,8 +286,8 @@ function productSearchReply(
 
   if (channel === "whatsapp") {
     return {
-      text: `${intro}\n${list}\n\nResponde con el *nombre + talla* (ej: Uniforme azul M) o escribe *asesor* para comprar.`,
-      suggestions: ["Tallas", "Envíos", "Asesor"],
+      text: `${intro}\n${list}\n\nPara ordenar escribe *pedido* (o *pedido uniforme azul*). También puedes pedir un *asesor*.`,
+      suggestions: ["Hacer pedido", "Tallas", "Asesor"],
     };
   }
 
@@ -304,7 +304,7 @@ function productSearchReply(
 export function getWelcomeReply(channel: ChatChannel = "web"): ChatReply {
   if (channel === "whatsapp") {
     return {
-      text: `¡Hola! Soy el asistente de ${store.displayName} 👋\n\nPuedo ayudarte con uniformes, tallas, envíos y formas de pago. ¿Qué necesitas?`,
+      text: `¡Hola! Soy el asistente de ${store.displayName} 👋\n\nPuedo tomar tu *pedido*, o ayudarte con productos, tallas y envíos.\nEscribe *pedido* para ordenar.`,
       suggestions: defaultSuggestions(channel),
     };
   }

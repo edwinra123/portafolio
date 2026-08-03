@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useCallback, useEffect, useMemo, useState } from "react";
+import { AdminWhatsAppOrders } from "@/components/AdminWhatsAppOrders";
 import { AdminWhatsAppSetup } from "@/components/AdminWhatsAppSetup";
 import type { Order, OrderStatus } from "@/lib/types";
 import { formatCOP, formatDate, orderStatusLabel } from "@/lib/format";
@@ -153,7 +154,7 @@ export default function AdminPage() {
           <div>
             <h1>Pedidos medixuniformes</h1>
             <p style={{ color: "rgba(255,255,255,0.75)" }}>
-              Verifica pagos con tarjeta y gestiona contraentregas
+              Pedidos de WhatsApp + verificación web / contraentrega
             </p>
           </div>
           <button type="button" className="btn btn-secondary" onClick={onLogout}>
@@ -181,10 +182,17 @@ export default function AdminPage() {
         </div>
 
         <div className="admin-card" style={{ marginBottom: "1.25rem" }}>
+          <AdminWhatsAppOrders />
+        </div>
+
+        <div className="admin-card" style={{ marginBottom: "1.25rem" }}>
           <AdminWhatsAppSetup />
         </div>
 
         <div className="admin-card">
+          <h2 style={{ marginBottom: "0.85rem", color: "var(--navy)", fontFamily: "var(--font-display)" }}>
+            Pedidos de la tienda web
+          </h2>
           <div className="filters">
             {(
               [

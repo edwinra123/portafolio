@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getChatReply } from "@/lib/chatbot";
+import { handleWhatsAppOrderMessage } from "@/lib/whatsappOrderFlow";
 import {
   extractIncomingMessages,
   getWhatsAppConfig,
@@ -50,17 +51,23 @@ export async function POST(request: NextRequest) {
     payload as Parameters<typeof extractIncomingMessages>[0]
   );
 
-  // Always acknowledge quickly so Meta does not retry aggressively.
   const tasks = incoming.map(async (message) => {
     if (!markMessageSeen(message.id)) return;
 
-    const reply = getChatReply(message.text, "whatsapp");
+    const orderReply = await handleWhatsAppOrderMessage(
+      message.from,
+      message.text,
+      message.contactName
+    );
+    const reply =
+      orderReply || getChatReply(message.text, "whatsapp");
 
     if (!config || !isWhatsAppConfigured()) {
       console.info("[whatsapp:dry-run]", {
         from: message.from,
         text: message.text,
         reply: reply.text,
+        orderFlow: Boolean(orderReply),
       });
       return;
     }
