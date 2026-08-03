@@ -182,22 +182,27 @@ export async function sendChatReplyToWhatsApp(
   reply: ChatReply
 ): Promise<void> {
   const body = formatReplyForWhatsApp(reply, config.siteUrl);
-  const interactive = buildInteractiveButtons(body, reply.suggestions);
-
-  if (interactive) {
-    const result = await sendWhatsAppPayload(config, {
-      ...interactive,
-      to,
-    });
-    if (result.ok) return;
-
-    // Fallback to plain text if interactive fails (e.g. policy limits).
-    console.warn("WhatsApp interactive send failed, falling back to text", result);
-  }
-
   const textResult = await sendWhatsAppText(config, to, body);
   if (!textResult.ok) {
     console.error("WhatsApp text send failed", textResult);
+  }
+
+  const suggestions = (reply.suggestions || []).slice(0, 3);
+  if (suggestions.length === 0) return;
+
+  const interactive = buildInteractiveButtons(
+    "Elige una opción o escribe tu duda:",
+    suggestions
+  );
+  if (!interactive) return;
+
+  const buttonsResult = await sendWhatsAppPayload(config, {
+    ...interactive,
+    to,
+  });
+  if (!buttonsResult.ok) {
+    // Buttons are optional UX; the main answer already went as text.
+    console.warn("WhatsApp interactive buttons failed", buttonsResult);
   }
 }
 
