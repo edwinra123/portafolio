@@ -82,10 +82,13 @@ curl -X POST http://localhost:3000/api/whatsapp/simulate \
 
 ### Comandos del bot
 
+- `pedido` → toma orden (modelo, talla, cantidad, ciudad, nombre) y la guarda para el admin
 - `hola` / `ayuda`
 - `productos` / `uniforme azul`
 - `tallas` · `envíos` · `formas de pago` · `horario`
 - `asesor` (atención humana en el mismo chat)
+
+En `/admin` ves **Pedidos por WhatsApp** con cuántos tienes abiertos / por preparar.
 
 ## Deploy
 
